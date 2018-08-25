@@ -24,7 +24,7 @@ fi
 if [ "${SIAB_ADDUSER}" == "true" ]; then
 	sudo=""
 	if [ "${SIAB_SUDO}" == "true" ]; then
-		sudo="-G wheel"
+		/usr/sbin/usermod ${SIAB_USER} -G wheel
 	fi
 	/usr/sbin/addgroup -g ${SIAB_GROUPID} ${SIAB_GROUP}
         if [ -d ${SIAB_HOME} ]; then
@@ -52,6 +52,9 @@ if [ "$SIAB_SCRIPT" != "none" ]; then
 	/prep.sh
 	set -e
 fi
+
+echo "Lookdown root account.."
+passwd -l root
 
 echo "Starting container .."
 if [ "$@" = "shellinabox" ]; then

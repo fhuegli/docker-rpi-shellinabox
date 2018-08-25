@@ -16,12 +16,12 @@ ENV SIAB_USERCSS="Normal:+/etc/shellinabox/options-enabled/00+Black-on-White.css
   SIAB_PKGS=none \
   SIAB_SCRIPT=none
 
-ADD files/shellinabox.tar.gz /
 ADD files/user-css.tar.gz /
 
 
-RUN apk add --update bash openssl curl openssh-client sudo && rm -rf /var/cache/apk/* && \
-   adduser -D -H -h /home/shellinabox shellinabox && mkdir /var/lib/shellinabox
+RUN chmod 755 /etc && apk add --update bash openssl curl openssh-client sudo && rm -rf /var/cache/apk/* && \
+   adduser -D -H -h /home/shellinabox shellinabox && mkdir /var/lib/shellinabox && \
+   echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 #  ln -sf '/etc/shellinabox/options-enabled/00+Black on White.css' \
 #    /etc/shellinabox/options-enabled/00+Black-on-White.css && \
 #  ln -sf '/etc/shellinabox/options-enabled/00_White On Black.css' \
@@ -32,7 +32,7 @@ RUN apk add --update bash openssl curl openssh-client sudo && rm -rf /var/cache/
 
 EXPOSE 4200
 
-VOLUME /etc/shellinabox /var/log/supervisor /home
+VOLUME /home
 
 ADD files/entrypoint.sh /
 
